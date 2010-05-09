@@ -335,9 +335,12 @@ void FileServer::messageLoop()
             return;
             break;
         case MSG_DISPOSE_HANDLE:
-            MemoryMap::unmap(msg.arg1);
+        {
+            bool unmapped = MemoryMap::unmap(msg.arg1);
+            logprintf("FileServer MSG_DISPOSE_HANDLE unmapped = %d\n", unmapped);
             Message::reply(&msg);
             break;
+        }
         default:
             PsInfo psInfo;
             syscall_set_ps_dump();

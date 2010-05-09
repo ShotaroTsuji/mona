@@ -62,6 +62,7 @@ int monapi_cmemoryinfo_map(monapi_cmemoryinfo* self)
 
 void monapi_cmemoryinfo_dispose(monapi_cmemoryinfo* self)
 {
+    _logprintf("monapi_cmemoryinfo_dispose handle=%x\n", self->Handle);
     monapi_cmemorymap_unmap(self->Handle);
     if (self->Owner != syscall_get_tid())
     {

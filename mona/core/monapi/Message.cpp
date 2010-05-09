@@ -17,10 +17,10 @@ int Message::send(uint32_t tid, MessageInfo* info)
     return syscall_send(tid, info);
 }
 
-int Message::send(uint32_t tid, uint32_t header, uint32_t arg1 /*= 0*/, uint32_t arg2 /*= 0*/, uint32_t arg3 /*= 0*/, const char* str /*= NULL */)
+int Message::send(uint32_t tid, uint32_t header, uint32_t arg1 /*= 0*/, uint32_t arg2 /*= 0*/, uint32_t arg3 /*= 0*/, const char* str /*= NULL */, uintptr_t uid /* = 0 */)
 {
     MessageInfo info;
-    Message::create(&info, header, arg1, arg2, arg3, str);
+    Message::create(&info, header, arg1, arg2, arg3, str, uid);
     return Message::send(tid, &info);
 }
 
@@ -49,11 +49,11 @@ int Message::sendReceiveA(MessageInfo* dst, uint32_t tid, MessageInfo* info)
     return Message::receive(dst, &src, Message::equalsFromHeaderArg1);
 }
 
-int Message::sendReceive(MessageInfo* dst, uint32_t tid, uint32_t header, uint32_t arg1 /* = 0 */, uint32_t arg2 /* = 0 */, uint32_t arg3 /* = 0 */, const char* str /* = NULL */)
+int Message::sendReceive(MessageInfo* dst, uint32_t tid, uint32_t header, uint32_t arg1 /* = 0 */, uint32_t arg2 /* = 0 */, uint32_t arg3 /* = 0 */, const char* str /* = NULL */, uintptr_t uid /* = 0 */)
 {
     MessageInfo src;
 
-    int result = Message::send(tid, header, arg1, arg2, arg3, str);
+    int result = Message::send(tid, header, arg1, arg2, arg3, str, uid);
     if (result != M_OK) return result;
     src.from = tid;
     src.header = MSG_RESULT_OK;
@@ -64,7 +64,7 @@ int Message::sendReceive(MessageInfo* dst, uint32_t tid, uint32_t header, uint32
 
 int Message::reply(MessageInfo* info, uint32_t arg2 /* = 0 */, uint32_t arg3 /* = 0 */, const char* str /* = NULL */)
 {
-    return Message::send(info->from, MSG_RESULT_OK, info->header, arg2, arg3, str);
+    return Message::send(info->from, MSG_RESULT_OK, info->header, arg2, arg3, str, info->uid);
 }
 
 int Message::replyError(MessageInfo* info, uint32_t arg2 /* = 0 */, uint32_t arg3 /* = 0 */, const char* str /* = NULL */)
@@ -101,12 +101,13 @@ int Message::peek(MessageInfo* info, int index, int flags)
     return syscall_peek(info, index, flags);
 }
 
-void Message::create(MessageInfo* info, uint32_t header, uint32_t arg1 /*= 0*/, uint32_t arg2 /*= 0*/, uint32_t arg3 /*= 0*/, const char* str /*= NULL */)
+void Message::create(MessageInfo* info, uint32_t header, uint32_t arg1 /*= 0*/, uint32_t arg2 /*= 0*/, uint32_t arg3 /*= 0*/, const char* str /*= NULL */, uintptr_t uid /* = 0 */)
 {
     info->header = header;
     info->arg1 = arg1;
     info->arg2 = arg2;
     info->arg3 = arg3;
+    info->uid = uid;
 
     if (str != NULL)
     {

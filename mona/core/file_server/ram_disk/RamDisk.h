@@ -91,6 +91,7 @@ namespace RamDisk {
                   ASSERT(copySize > 0);
 
                   char *ptr = *it;
+                  logprintf("ptr + chunkOffset=%x\n", ptr + chunkOffset);
                   memcpy(ptr + chunkOffset, src, copySize);
 
                   src += copySize;
@@ -238,6 +239,7 @@ namespace RamDisk {
 
                 uint32_t offset = context->offset;
                 uint32_t writeSize = context->size;
+                logprintf("ram_disk::write (offset=%d writeSize=%d memory->Data=%x)\n", offset, writeSize, memory->Data);
                 f->writeChunks(offset, writeSize, memory->Data);
                 f->size = f->size > offset+writeSize ? f->size : offset+writeSize;
                 return MONA_SUCCESS;

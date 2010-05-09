@@ -343,12 +343,21 @@ int monapi_file_stop_server()
 
 uint32_t monapi_file_write(uint32_t fileID, monapi_cmemoryinfo* mem, uint32_t size)
 {
+    _logprintf("try to file_write() fileID = %x %s\n", fileID, System::getProcessInfo()->name);
+    static uintptr_t id = 0x55000;
+
     MessageInfo msg;
+    uintptr_t uid = id + System::getThreadID();
+    id += 0x100;
+
+    _logprintf("monapi_file_write: uid=%x\n", uid);
     uint32_t tid = monapi_get_server_thread_id(ID_FILE_SERVER);
-    if (Message::sendReceive(&msg, tid, MSG_FILE_WRITE, fileID, size, mem->Handle) != 0)
+    if (Message::sendReceive(&msg, tid, MSG_FILE_WRITE, fileID, size, mem->Handle, NULL, uid) != 0)
     {
+        _logprintf("ERROR file_write() %x %s\n", fileID, System::getProcessInfo()->name);
         return MONA_FAILURE;
     }
+    _logprintf("OK file_write() %x %s header=%x %x arg2=%x msg.uid=%x\n", fileID, System::getProcessInfo()->name, msg.header, msg.arg1, msg.arg2, msg.uid);
     return msg.arg2;
 }
 

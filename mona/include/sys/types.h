@@ -161,6 +161,7 @@ typedef struct {
     uintptr_t from;
     char str[MESSAGE_INFO_MAX_STR_LENGTH];
     int length;
+    uintptr_t uid; // To identify message for debug use.
 } MessageInfo;
 
 typedef struct {

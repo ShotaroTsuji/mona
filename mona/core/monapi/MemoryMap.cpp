@@ -57,6 +57,8 @@ uint8_t* MemoryMap::map(uint32_t id)
 {
     /* to be first fit */
     MEMORY_MAP_TRACE("try to map() id = %x", id);
+    _logprintf("try to map() id = %x %s", id, System::getProcessInfo()->name);
+    
     uintptr_t size = syscall_memory_map_get_size(id);
 
     if (size == 0)

@@ -18,8 +18,8 @@ MessageInfo* Messenger::allocateMessageInfo() {
     allocated_++;
     if (allocated_ > size_ - 1) {
 
-#if 0  // DEBUG for message
-        g_console->printf("***** msg buf index set to zero again ****");
+#if 1  // DEBUG for message
+        logprintf("***** msg buf index set to zero again ****");
 #endif
         allocated_ = 0;
     }
@@ -30,14 +30,29 @@ int Messenger::send(uint32_t id, MessageInfo* message)
 {
     Thread* thread;
     MessageInfo* info;
+    if (message->header == 0x417) {
+        logprintf("MSG_FILE_WRITE!\n");
+    }
+
+
+    if (message->header == 3 && message->arg1 == 0x417) {
+        logprintf("MSG_RESULT_OK(%x) from=%x! uid=%x\n", message->arg1, message->from, message->uid);
+    }
 
     if (message == (MessageInfo*)NULL)
     {
+    if (message->header == 3 && message->arg1 == 0x417) {
+        logprintf("drop MSG_RESULT_OK\n");
+    }
         return -1;
     }
 
     if ((thread = g_scheduler->Find(id)) == (Thread*)NULL)
     {
+    if (message->header == 3 && message->arg1 == 0x417) {
+        logprintf("drop MSG_RESULT_OK2\n");
+    }
+
         return -1;
     }
 
@@ -55,10 +70,19 @@ int Messenger::send(uint32_t id, MessageInfo* message)
 #endif
 
     *info = *message;
+
     info->from = g_currentThread->thread->id;
 
     thread->flags |= MEvent::MESSAGE;
     thread->messageList->add(info);
+
+    if (message->header == 3 && message->arg1 == 0x417) {
+        logprintf("MSG_RESULT_OK(%x) %s from=%x! uid=%x list=%x listSize=%d\n", message->arg1, thread->tinfo->process->getName(), message->from, message->uid, thread->messageList, thread->messageList->size());
+//         for (int i = 0; i < thread->messageList->size(); i++) {
+//             logprintf("header=%x %d\n", thread->messageList->get(i)->header, i);
+//         }
+    }
+
 
     g_scheduler->EventComes(thread, MEvent::MESSAGE);
 
@@ -100,15 +124,34 @@ int Messenger::peek(Thread* thread, MessageInfo* message, int index, int flags)
 
     if (index > list->size())
     {
+        logprintf("%s invalid peek list=%x %d:%d\n", thread->tinfo->process->getName(), list, index, list->size());
         return 1;
     }
 
-    MessageInfo* from = flags & PEEK_REMOVE ? list->removeAt(index) : list->get(index);
+    logprintf("peek remove? %d : index=%d %s size=%d\n", flags & PEEK_REMOVE, index, thread->tinfo->process->getName(), list->size());
+        for (int i = 0; i < thread->messageList->size(); i++) {
+            logprintf("header=%x %d, arg1=%x\n", thread->messageList->get(i)->header, i, thread->messageList->get(i)->arg1);
+        }
+
+    MessageInfo* from = NULL;
+    if (flags & PEEK_REMOVE) {
+        from = list->removeAt(index);
+        logprintf("peek REMOVED %d\n", list->size());
+        for (int i = 0; i < thread->messageList->size(); i++) {
+            logprintf("header=%x %d, arg1=%x\n", thread->messageList->get(i)->header, i, thread->messageList->get(i)->arg1);
+        }
+
+    } else {
+        logprintf("peek NOT REMOVED %d\n", list->size());
+        from = list->get(index);
+    }
 
     if (from == (MessageInfo*)NULL)
     {
         return -1;
     }
+
+    logprintf("peek header=%x\n", from->header);
 
     thread->flags &= ~MEvent::MESSAGE;
     *message = *from;

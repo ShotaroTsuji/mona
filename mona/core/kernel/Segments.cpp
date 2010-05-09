@@ -462,11 +462,14 @@ bool SharedMemoryObject::attach(uint32_t id, Process* process, LinearAddress add
 */
 bool SharedMemoryObject::detach(uint32_t id, Process* process)
 {
+
     SharedMemoryObject* target = find(id);
     if (target == NULL) return false;
 
     SharedMemorySegment* segment = SharedMemorySegment::find(process, id);
     if (segment == NULL) return false;
+
+    logprintf("try detach id=%x %s(%d)\n", id, process->getName(), target->getAttachedCount());
 
     /* destroy */
     g_page_manager->setAbsent(process->getPageDirectory(), segment->getStart(), segment->getSize());
@@ -474,10 +477,11 @@ bool SharedMemoryObject::detach(uint32_t id, Process* process)
     delete(segment);
 
     target->setAttachedCount(target->getAttachedCount() - 1);
-
+    logprintf("try detach2 id=%x %s(%d)\n", id, process->getName(), target->getAttachedCount());
     /* should be removed */
     if (target->getAttachedCount() == 0)
     {
+        logprintf("DONE detach id=%x %s\n", id, process->getName());
 //        logprintf("segment id = %x removed %s(%s):%d\n", id,__FILE__, __func__, __LINE__);
 //        logprintf("map removed id=%x %s:%d:(%s)\n", id, __FILE__, __LINE__, __func__);
         g_sharedMemoryObjectList->remove(target);

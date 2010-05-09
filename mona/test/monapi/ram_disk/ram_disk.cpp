@@ -21,6 +21,7 @@ static bool fileExist(const char* path)
 
 static void cm_destroy_delete(monapi_cmemoryinfo *cm)
 {
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(cm);
     monapi_cmemoryinfo_delete(cm);
 }
@@ -61,8 +62,10 @@ static void createFile(const char* path)
     const char* message = "Hello World\n";
     monapi_cmemoryinfo* buffer = alloc_buffer(message);
 
+    logprintf("ram_disk:filewrite %d\n", __LINE__);
     monapi_file_write(id, buffer, buffer->Size);
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(buffer);
     monapi_cmemoryinfo_delete(buffer);
 
@@ -101,16 +104,19 @@ static void writeContentToPathWithSize(const char* path, const char* contents, i
     while(size > 0) {
         int copySize = size > MAXDATA ? MAXDATA : size;
         memcpy(buffer->Data, contents, copySize);
+    logprintf("ram_disk:filewrite %d\n", __LINE__);
         res = monapi_file_write(id, buffer, copySize);
         EXPECT_EQ(res, MONA_SUCCESS);
         monapi_file_seek(id, copySize, SEEK_CUR);
         size -= copySize;
         contents += copySize;
     }
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(buffer);
 
 #if 0
     monapi_cmemoryinfo* buffer = alloc_buffer_size(contents, size);
+    logprintf("ram_disk:filewrite %d\n", __LINE__);
     int res = monapi_file_write(id, buffer, size);
 #endif
     EXPECT_EQ(res, MONA_SUCCESS);
@@ -160,6 +166,7 @@ static void testWriteFile_Content()
     EXPECT_EQ(len, actual->Size);
     EXPECT_TRUE( 0 == memcmp(actual->Data, data, len));
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(actual);
     monapi_cmemoryinfo_delete(actual);
 
@@ -189,6 +196,7 @@ static void testWriteTwice()
     EXPECT_EQ(expect_len, actual->Size);
     EXPECT_TRUE( 0 == memcmp(actual->Data, expect, expect_len));
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(actual);
     monapi_file_delete(path);
 }
@@ -207,6 +215,7 @@ static void testWriteTwice_CreateTrue()
     EXPECT_EQ(expect_len, actual->Size);
     EXPECT_TRUE( 0 == memcmp(actual->Data, expect, expect_len));
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(actual);
 
     monapi_file_delete(path);
@@ -246,8 +255,10 @@ static void expectFileEqual(const char* org, const char* to)
     ASSERT_EQ(m1->Size, m2->Size);
     EXPECT_TRUE(0 == memcmp(m1->Data, m2->Data, m1->Size));
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(m1);
     monapi_cmemoryinfo_delete(m1);
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(m2);
     monapi_cmemoryinfo_delete(m2);
 
@@ -331,6 +342,7 @@ static void testReadDirectory_Empty()
 
     EXPECT_EQ(0, size);
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(ci);
 }
 
@@ -343,6 +355,7 @@ static void testReadDirectory_OneFile()
 
     EXPECT_EQ(1, size);
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(ci);
 
     monapi_file_delete("/MEM/TEST1.TXT");
@@ -363,6 +376,7 @@ static void testReadDirectory_TwoFile()
     EXPECT_TRUE(CString(p[0].name) ==  "TEST1.TXT");
     EXPECT_TRUE(CString(p[1].name) ==  "TEST2.TXT");
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     cm_destroy_delete(ci);
 
     monapi_file_delete("/MEM/TEST2.TXT");
@@ -386,6 +400,7 @@ static void testReadDirectory_Root()
     }
     EXPECT_TRUE(ramdiskFound);
 
+    logprintf("ram_disk:dipose %d\n", __LINE__);
     monapi_cmemoryinfo_dispose(ci);
     monapi_cmemoryinfo_delete(ci);
 }
