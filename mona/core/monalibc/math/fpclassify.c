@@ -8,7 +8,7 @@ int fpclassify_d(double x)
 	if( u.n.exp == 0 && u.n.frac1 == 0 && u.n.frac0 == 0 ) return FP_ZERO;
 	if( u.n.exp == 2047 && u.n.frac1 == 0 && u.n.frac0 == 0 ) return FP_INFINITE;
 	if( u.n.exp == 2047/* && u.n.frac1 != 0 && u.n.frac0 != 0*/ ) return FP_NAN;
-	if( u.n.sign == 0 && !(u.n.frac1 == 0 && u.n.frac0 == 0) ) return FP_SUBNORMAL;
+	if( u.n.exp == 0 && !(u.n.frac1 == 0 && u.n.frac0 == 0) ) return FP_SUBNORMAL;
 	return FP_NORMAL;
 }
 
@@ -19,7 +19,7 @@ int fpclassify_f(float x)
 	if( u.n.exp == 0 && u.n.frac == 0 ) return FP_ZERO;
 	if( u.n.exp == 255 && u.n.frac == 0 ) return FP_INFINITE;
 	if( u.n.exp == 255 && u.n.frac != 0 ) return FP_NAN;
-	if( u.n.sign == 0 && u.n.frac != 0 ) return FP_SUBNORMAL;
+	if( u.n.exp == 0 && u.n.frac != 0 ) return FP_SUBNORMAL;
 	return FP_NORMAL;
 }
 
