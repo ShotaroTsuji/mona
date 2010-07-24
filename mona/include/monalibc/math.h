@@ -101,6 +101,7 @@ double frexp(double value, int *exp);
 double ldexp(double x, int n);
 double log(double x);
 double log10(double x);
+double logb(double x);
 double modf(double x, double *buf);
 double nearbyint(double x);
 double pow(double x, double y);
