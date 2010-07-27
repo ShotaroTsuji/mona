@@ -7,6 +7,8 @@
                          "/APPS/TMUTEX.EX5"
                          "/APPS/TCOND.EX5"
                          "/APPS/TSTDIO.APP/TSTDIO.EX5"
+                         "/APPS/TSTDLIB.EX5"
+                         "/APPS/TMATH.APP/TMATH.EX5"
                          "/APPS/TMSG.EX5"
                          "/APPS/TSYSCALL.EX5"
                          "/APPS/TRAMDISK.EX5"
