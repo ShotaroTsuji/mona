@@ -36,7 +36,7 @@ ${SOURCE1}:
 	touch $@
 
 .PATCH: .EXTRACT Makefile.mona config.h dll_main.cpp
-	(cd $(WORKDIR) && ./configure --enable-assert=yes --enable-cxx=no --build=i586 --host=i586-mingw32msvc && make)
+	(cd $(WORKDIR) && ./configure --enable-assert=yes --enable-cxx=no --build=powerpc --host=i386-mingw32 && make)
 	patch -p0 < patch-aa
 	cp dll_main.cpp $(WORKDIR)/
 	cp config.h $(WORKDIR)/
