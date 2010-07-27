@@ -42,10 +42,11 @@ endif
 	cd core/pe_server && $(MAKE) && $(MAKE) install
 	cd core/gui_server && $(MAKE) && $(MAKE) install
 	cd core/scheme && $(MAKE) -f Makefile.mona && $(MAKE) -f Makefile.mona install
-#	cd core/gmp && $(MAKE) && $(MAKE) install
-#	cd core/mosh && $(MAKE) -f Makefile.mona && $(MAKE) -f Makefile.mona install
+	cd core/gmp && $(MAKE) && $(MAKE) install
+	cd core/mosh && $(MAKE) -f Makefile.mona && $(MAKE) -f Makefile.mona install
 
 tests: tools cores
+	cd test/monapi/file && $(MAKE) && $(MAKE) install
 	cd test/monalibc/string && $(MAKE) && $(MAKE) install
 	cd test/monalibc/stdio && $(MAKE) && $(MAKE) install
 	cd test/monalibc/stdlib && $(MAKE) && $(MAKE) install
