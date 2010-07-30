@@ -36,7 +36,7 @@ ${SOURCE1}:
 	touch $@
 
 .PATCH: .EXTRACT Makefile.mona config.h dll_main.cpp
-	(cd $(WORKDIR) && ./configure --enable-assert=yes --enable-cxx=no --build=powerpc --host=i386-mingw32 && make)
+	(cd $(WORKDIR) && ./configure --enable-assert=yes --enable-cxx=no --build=powerpc-apple-darwin7.9.0 --host=i686-mingw32 && make)
 	patch -p0 < patch-aa
 	cp dll_main.cpp $(WORKDIR)/
 	cp config.h $(WORKDIR)/
@@ -45,7 +45,7 @@ ${SOURCE1}:
 	(cd $(WORKDIR) && make -f Makefile.mona clean)
 	touch $@
 
-.MAKE: .PATCH
+.MAKE:
 	cd ${WORKDIR} && make -f Makefile.mona
 	touch $@
 

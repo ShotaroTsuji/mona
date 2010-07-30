@@ -24,7 +24,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
 /* The gmp-mparam.h file (a string) the tune program should suggest updating.
    */
-#define GMP_MPARAM_H_SUGGEST "./mpn/x86/pentium/gmp-mparam.h"
+#define GMP_MPARAM_H_SUGGEST "./mpn/x86/p6/gmp-mparam.h"
 
 /* Define to 1 if you have the `alarm' function. */
 /* #undef HAVE_ALARM */
@@ -124,7 +124,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 /* #undef HAVE_GETSYSINFO */
 
 /* Define to 1 if you have the `gettimeofday' function. */
-#define HAVE_GETTIMEOFDAY 1
+/* #undef HAVE_GETTIMEOFDAY */
 
 /* Define one of these to 1 for the host CPU family.
    If your CPU is not in any of these families, leave all undefined.
@@ -151,8 +151,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 /* #undef HAVE_HOST_CPU_powerpc7400 */
 /* #undef HAVE_HOST_CPU_supersparc */
 /* #undef HAVE_HOST_CPU_i386 */
-#define HAVE_HOST_CPU_i586 1
-/* #undef HAVE_HOST_CPU_i686 */
+/* #undef HAVE_HOST_CPU_i586 */
+#define HAVE_HOST_CPU_i686 1
 /* #undef HAVE_HOST_CPU_pentium */
 /* #undef HAVE_HOST_CPU_pentiummmx */
 /* #undef HAVE_HOST_CPU_pentiumpro */
@@ -219,10 +219,10 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 /* #undef HAVE_NATIVE_mpn_addmul_8 */
 /* #undef HAVE_NATIVE_mpn_addsub_n */
 /* #undef HAVE_NATIVE_mpn_addaddmul_1msb0 */
-#define HAVE_NATIVE_mpn_and_n 1
-#define HAVE_NATIVE_mpn_andn_n 1
+/* #undef HAVE_NATIVE_mpn_and_n */
+/* #undef HAVE_NATIVE_mpn_andn_n */
 #define HAVE_NATIVE_mpn_bdiv_dbm1c 1
-#define HAVE_NATIVE_mpn_com_n 1
+/* #undef HAVE_NATIVE_mpn_com_n */
 #define HAVE_NATIVE_mpn_copyd 1
 #define HAVE_NATIVE_mpn_copyi 1
 #define HAVE_NATIVE_mpn_divexact_1 1
@@ -232,19 +232,19 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 #define HAVE_NATIVE_mpn_divrem_2 1
 /* #undef HAVE_NATIVE_mpn_gcd_1 */
 /* #undef HAVE_NATIVE_mpn_invert_limb */
-#define HAVE_NATIVE_mpn_ior_n 1
-#define HAVE_NATIVE_mpn_iorn_n 1
+/* #undef HAVE_NATIVE_mpn_ior_n */
+/* #undef HAVE_NATIVE_mpn_iorn_n */
 /* #undef HAVE_NATIVE_mpn_lshiftc */
 #define HAVE_NATIVE_mpn_mod_1 1
 #define HAVE_NATIVE_mpn_mod_1c 1
 #define HAVE_NATIVE_mpn_modexact_1_odd 1
 #define HAVE_NATIVE_mpn_modexact_1c_odd 1
-#define HAVE_NATIVE_mpn_mul_1c 1
-#define HAVE_NATIVE_mpn_mul_2 1
+/* #undef HAVE_NATIVE_mpn_mul_1c */
+/* #undef HAVE_NATIVE_mpn_mul_2 */
 /* #undef HAVE_NATIVE_mpn_mul_3 */
 /* #undef HAVE_NATIVE_mpn_mul_4 */
-#define HAVE_NATIVE_mpn_nand_n 1
-#define HAVE_NATIVE_mpn_nior_n 1
+/* #undef HAVE_NATIVE_mpn_nand_n */
+/* #undef HAVE_NATIVE_mpn_nior_n */
 /* #undef HAVE_NATIVE_mpn_preinv_divrem_1 */
 #define HAVE_NATIVE_mpn_preinv_mod_1 1
 /* #undef HAVE_NATIVE_mpn_redc_1 */
@@ -261,8 +261,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 /* #undef HAVE_NATIVE_mpn_umul_ppmm_r */
 #define HAVE_NATIVE_mpn_udiv_qrnnd 1
 /* #undef HAVE_NATIVE_mpn_udiv_qrnnd_r */
-#define HAVE_NATIVE_mpn_xor_n 1
-#define HAVE_NATIVE_mpn_xnor_n 1
+/* #undef HAVE_NATIVE_mpn_xor_n */
+/* #undef HAVE_NATIVE_mpn_xnor_n */
 
 /* Define to 1 if you have the `nl_langinfo' function. */
 /* #undef HAVE_NL_LANGINFO */
@@ -470,7 +470,7 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 #define TIME_WITH_SYS_TIME 1
 
 /* Maximum size the tune program can test for SQR_KARATSUBA_THRESHOLD */
-/* #undef TUNE_SQR_KARATSUBA_MAX */
+#define TUNE_SQR_KARATSUBA_MAX 67
 
 /* Version number of package */
 #define VERSION "4.3.2"
@@ -495,8 +495,8 @@ along with the GNU MP Library.  If not, see http://www.gnu.org/licenses/.
 
 /* Define one of these to 1 for the desired temporary memory allocation
    method, per --enable-alloca. */
-/* #define WANT_TMP_ALLOCA 1*/
-#define WANT_TMP_REENTRANT 1
+#define WANT_TMP_ALLOCA 1
+/* #undef WANT_TMP_REENTRANT */
 /* #undef WANT_TMP_NOTREENTRANT */
 /* #undef WANT_TMP_DEBUG */
 

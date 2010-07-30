@@ -22,126 +22,25 @@ TOP_CSOURCES=\
   randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c version.c
 
 export MPN_CSOURCES= \
-add.c \
-add_1.c \
-addsub_n.c \
-bdivmod.c \
-binvert.c \
-cmp.c \
-dc_bdiv_q.c \
-dc_bdiv_qr.c \
-dc_div_q.c \
-dc_div_qr.c \
-dc_divappr_q.c \
-dc_divrem_n.c \
-diveby3.c \
-divexact.c \
-divis.c \
-divrem.c \
-dump.c \
-fib2_ui.c \
-fib_table.c \
-gcd.c \
-gcd_1.c \
-gcd_lehmer.c \
-gcd_subdiv_step.c \
-gcdext.c \
-gcdext_1.c \
-gcdext_lehmer.c \
-gcdext_subdiv_step.c \
-get_d.c \
-get_str.c \
-hgcd.c \
-hgcd2.c \
-invert.c \
-jacbase.c \
-matrix22_mul.c \
-mod_1_1.c \
-mod_1_2.c \
-mod_1_3.c \
-mod_1_4.c \
-mp_bases.c \
-mu_bdiv_q.c \
-mu_bdiv_qr.c \
-mu_div_q.c \
-mu_div_qr.c \
-mu_divappr_q.c \
-mul.c \
-mul_fft.c \
-mul_n.c \
-mullow_basecase.c \
-mullow_n.c \
+add.c add_1.c \
+sub.c sub_1.c \
 neg_n.c \
-perfsqr.c \
-pow_1.c \
-powlo.c \
-powm.c \
-powm_sec.c \
-pre_divrem_1.c \
-random.c \
-random2.c \
-redc_1.c \
-redc_2.c \
-rootrem.c \
-sb_bdiv_q.c \
-sb_bdiv_qr.c \
-sb_div_q.c \
-sb_div_qr.c \
-sb_divappr_q.c \
-sb_divrem_mn.c \
-scan0.c \
-scan1.c \
-set_str.c \
-sqrtrem.c \
-sub.c \
-sub_1.c \
-subcnd_n.c \
-tdiv_qr.c \
-toom22_mul.c \
-toom2_sqr.c \
-toom32_mul.c \
-toom33_mul.c \
-toom3_sqr.c \
-toom42_mul.c \
-toom44_mul.c \
-toom4_sqr.c \
-toom53_mul.c \
-toom62_mul.c \
-toom_interpolate_5pts.c \
-toom_interpolate_7pts.c
+diveby3.c divis.c divrem.c \
+fib2_ui.c fib_table.c mp_bases.c \
+pre_divrem_1.c dump.c mod_1_1.c mod_1_2.c mod_1_3.c mod_1_4.c mul.c mul_fft.c mul_n.c \
+random.c random2.c pow_1.c rootrem.c sqrtrem.c get_str.c set_str.c scan0.c scan1.c popcount.c hamdist.c cmp.c perfsqr.c bdivmod.c gcd_1.c gcd.c gcdext_1.c gcdext.c gcd_lehmer.c gcd_subdiv_step.c gcdext_lehmer.c gcdext_subdiv_step.c tdiv_qr.c dc_divrem_n.c sb_divrem_mn.c jacbase.c get_d.c matrix22_mul.c hgcd2.c hgcd.c mullow_n.c mullow_basecase.c toom22_mul.c toom33_mul.c toom44_mul.c toom32_mul.c toom42_mul.c toom62_mul.c toom53_mul.c toom2_sqr.c toom3_sqr.c toom4_sqr.c toom_interpolate_5pts.c toom_interpolate_7pts.c invert.c binvert.c sb_div_qr.c sb_divappr_q.c sb_div_q.c dc_div_qr.c dc_divappr_q.c dc_div_q.c mu_div_qr.c mu_divappr_q.c mu_div_q.c sb_bdiv_q.c sb_bdiv_qr.c dc_bdiv_q.c dc_bdiv_qr.c mu_bdiv_q.c mu_bdiv_qr.c divexact.c \
+redc_1.c redc_2.c powm.c powlo.c powm_sec.c subcnd_n.c \
+addsub_n.c
 
-export MPN_ASMSOURCES= add_n.asm \
-addmul_1.asm \
-and_n.asm \
-andn_n.asm \
+export MPN_ASMSOURCES=  \
+add_n.asm \
+sub_n.asm  \
+mul_1.asm addmul_1.asm submul_1.asm lshift.asm rshift.asm dive_1.asm \
+umul.asm udiv.asm copyi.asm copyd.asm \
 bdiv_dbm1c.asm \
-com_n.asm \
-copyd.asm \
-copyi.asm \
-dive_1.asm \
-divrem_2.asm \
-hamdist.asm \
-ior_n.asm \
-iorn_n.asm \
-lshift.asm \
-mod_1.asm \
-mod_34lsub1.asm \
-mode1o.asm \
-mul_1.asm \
-mul_2.asm \
-mul_basecase.asm \
-nand_n.asm \
-nior_n.asm \
-popcount.asm \
-rshift.asm \
-sqr_basecase.asm \
-sub_n.asm \
-submul_1.asm \
-udiv.asm \
-umul.asm \
-xnor_n.asm \
-xor_n.asm \
-divrem_1.asm
+divrem_1.asm divrem_2.asm \
+mul_basecase.asm sqr_basecase.asm \
+mod_1.asm mod_34lsub1.asm mode1o.asm
 
 MPN_OBJECTS= $(patsubst %.asm, mpn/%.o, $(MPN_ASMSOURCES)) $(patsubst %.c, mpn/%.o, $(MPN_CSOURCES))
 
