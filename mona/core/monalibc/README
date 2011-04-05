@@ -1,31 +1,43 @@
-				NIDA libc
+Monalibc is a C runtime library under development, whose main target is Mona OS.
+This libc doesn't implement all of the C standard functions or macros, but it
+provides the codes enough to implement or port many C programs and libraries
+to a degree. This was developed by Higepon, Shadow, Shotaro Tsuji et alii almost from scratch for Mona.
 
-　   　　　　 　ﾆﾀﾞﾀﾞﾞﾀﾞﾞﾀﾞｯ　　　　　　　　＿＿＿ 
-　   　　　　 　　 ∧三○ 三○　 |｜＼　　 ＼ ￣| ￣｜
-　 　　  　　 　　<#｀Д´>三○　|｜　｜￣￣｜｜： .｜
-　  　　　　  　┌（ 三○／￣|｜／　￣　/ ｜＝｜
-　    　　　　　｜　ヽ　|二二二」二二二二二二二二」
-　 　　　　   　　￣］|_フ　　|　|　　　　　　　 |　|
-　    　　　　　　／￣＼　 ／　 |　　　　　　／　 |
-　　　  　　  　 ◎　　◎ ［＿＿」　　　　　［＿＿」
+The target of Monalibc is Mona OS and it is the core part of Mona. Therefore this libc isn't an independent library.
+First, the CRT, start-up routines of C programs, is fully dpendent on Mona. Of course,
+these codes will be written for a specific system. Second, the functions which use
+the system-calls rely on Mona. Some functions abstract the operations and call
+the system through low-level functions. Others call MonAPI directly. Third,
+makefiles are written on the expectation that this libc would only be used on
+Mona. So you cannot do 'make' this on other systems.
 
-*簡単な説明
-　NIDAlibcと言うニダ
-　色んな人が書いた奴をまじぇまじぇしたニダ
-　ANSI準拠じゃなくてもケンチャナヨ
-　動かなくてもケンチャナヨ
-　バグが出たら一番下のメールアドレスに送って欲しいニダ
+If you build Mona OS, you can install this libc on it. The makefile,
+"mona/Makefile" makes and installs Monalibc automatically, and you don't need use 'configure'.
 
-*ソース書いた人
-	Yume
-	Higepon
-	shadow
-	Todd C. Miller
+It is supposed that Monalibc work on Mona OS, which supports only x86 PCs, and it depends on system headers, MonAPI, keyboard server, mouse server, process server, file server, and syscalls.
+Monalibc also depends on x86 cpus to provide the fenv.h.
+The following functions depend on Mona OS: crt, dirent, stdio, stdlib, sys, and time.
+The following functions depend on x86: fenv, intrinsics, setjmp, and stdarg.
+The following functions are independent: assert, ctype, errno, inttypes, locale, math, string, and wchar.
+On the rest, 'private' consists of miscellaneous routines, and 'unistd' and 'newlib' are imported from other systems.
 
-*使い方
-　とりあえずアンタのmainルーチンから始まるプログラムにlib/crt.oとlibnidac-imp.a
-　を一緒にリンクして欲しいニダ
+The header files are located in the directory, `mona/include/monalibc/'.
 
 
-BUG REPORT
-	ここに送るニダ: negi4d41@yahoo.co.jp
+If you wanted to build Monalibc on others, you cannot make it with the makefiles
+as it is. You should modify or rewrite them for the system on which you would
+want to install it.
+You should write system dependent codes. Vide supra to know what functions to be implemented.
+
+Monalibc, in principio, had few of libc functions, exempli causa, math functions.
+Moreover, some libc functions such as string, stdlib, was included in MonAPI,
+the API of Mona. In these time, Monalibc was developmented by Shadow and Higepon.
+
+Due to this insufficience it was difficult to port C programs onto Mona and it was preventing Mona from growing.
+But it marged into itself Nidalibc, which was a C runtime library developed to a degree.
+Then it came to manage to serve as a libc; it got the C start up routines and some functions: stdio, stdlib, string, ctype et cetera.
+
+Monalibc might contain bugs and lack some functions yet. We welcome your patches to this libc.
+
+Please send bug reports to `Shotaro.Tsuji@gmail.com' or post it on the developers Wiki.
+Your bug reports should describe your input and output, what you expected and the reason it is wrong.
