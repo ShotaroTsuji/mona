@@ -7,6 +7,7 @@ extern "C" __attribute__((constructor)) void monalibc_initialize();
 extern "C" __attribute__((destructor)) void monalibc_finalize();
 extern "C" FuncVoid* __CTOR_LIST__[];
 extern "C" FuncVoid* __DTOR_LIST__[];
+extern "C" void _pei386_runtime_relocator() {}
 
 int dllmain(uint32_t reason)
 {
